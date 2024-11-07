@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl_role">
+    <sys_security_acl_role action="INSERT_OR_UPDATE">
+        <sys_class_name>sys_security_acl_role</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2024-11-07 12:51:07</sys_created_on>
+        <sys_id>7483735c833112107e03c430ceaad37c</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_1523454_bus_seat_bus_company.x_1523454_bus_seat.users</sys_name>
+        <sys_package display_value="Bus Seat Reservation" source="x_1523454_bus_seat">f2c17b98833112107e03c430ceaad391</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Bus Seat Reservation">f2c17b98833112107e03c430ceaad391</sys_scope>
+        <sys_security_acl display_value="x_1523454_bus_seat_bus_company">b883735c833112107e03c430ceaad379</sys_security_acl>
+        <sys_update_name>sys_security_acl_role_7483735c833112107e03c430ceaad37c</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2024-11-07 12:51:07</sys_updated_on>
+        <sys_user_role display_value="x_1523454_bus_seat.users" name="x_1523454_bus_seat.users">2ee173d8833112107e03c430ceaad3fb</sys_user_role>
+    </sys_security_acl_role>
+</record_update>
