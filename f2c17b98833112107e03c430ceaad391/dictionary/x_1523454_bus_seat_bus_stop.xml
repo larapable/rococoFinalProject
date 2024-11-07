@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
     <element db_object_id="0776bfdc8331121021f5f1d6feaad396" label="Bus Stop" max_length="40" name="x_1523454_bus_seat_bus_stop" type="collection">
+        <element choice="1" label="Type" max_length="40" name="type" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Not Terminal" sequence="200" value="not terminal"/>
+                <element inactive_on_update="false" label="Terminal" sequence="100" value="terminal"/>
+            </choice>
+        </element>
         <element label="Name" max_length="50" name="name" type="string"/>
-        <element attributes="edge_encryption_enabled=true" label="type" max_length="40" name="type" type="boolean"/>
     </element>
 </database>

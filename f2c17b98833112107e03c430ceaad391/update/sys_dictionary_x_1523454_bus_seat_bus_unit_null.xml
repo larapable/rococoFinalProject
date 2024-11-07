@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><record_update>
-    <sys_dictionary action="INSERT_OR_UPDATE" element="type" table="x_1523454_bus_seat_bus_stop">
+    <sys_dictionary action="INSERT_OR_UPDATE" element="" table="x_1523454_bus_seat_bus_unit">
         <active>true</active>
         <array>false</array>
         <attributes/>
@@ -10,10 +10,10 @@
 	return '';  // return the calculated value
 
 })(current);]]></calculation>
-        <choice>1</choice>
+        <choice/>
         <choice_field/>
         <choice_table/>
-        <column_label>Type</column_label>
+        <column_label/>
         <comments/>
         <create_roles/>
         <default_value/>
@@ -26,16 +26,16 @@
         <dynamic_creation_script/>
         <dynamic_default_value/>
         <dynamic_ref_qual/>
-        <element>type</element>
+        <element/>
         <element_reference>false</element_reference>
         <foreign_database/>
         <formula/>
         <function_definition/>
         <function_field>false</function_field>
-        <internal_type display_value="Choice">choice</internal_type>
+        <internal_type display_value="Collection">collection</internal_type>
         <mandatory>false</mandatory>
         <max_length>40</max_length>
-        <name>x_1523454_bus_seat_bus_stop</name>
+        <name>x_1523454_bus_seat_bus_unit</name>
         <next_element/>
         <primary>false</primary>
         <read_only>false</read_only>
@@ -51,14 +51,14 @@
         <staged>false</staged>
         <sys_class_name>sys_dictionary</sys_class_name>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2024-11-07 13:26:34</sys_created_on>
-        <sys_name>Type</sys_name>
+        <sys_created_on>2024-11-07 13:17:23</sys_created_on>
+        <sys_name>x_1523454_bus_seat_bus_unit</sys_name>
         <sys_package display_value="Bus Seat Reservation" source="x_1523454_bus_seat">f2c17b98833112107e03c430ceaad391</sys_package>
         <sys_policy/>
         <sys_scope display_value="Bus Seat Reservation">f2c17b98833112107e03c430ceaad391</sys_scope>
-        <sys_update_name>sys_dictionary_x_1523454_bus_seat_bus_stop_type</sys_update_name>
+        <sys_update_name>sys_dictionary_x_1523454_bus_seat_bus_unit_null</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2024-11-07 13:26:34</sys_updated_on>
+        <sys_updated_on>2024-11-07 13:17:23</sys_updated_on>
         <table_reference>false</table_reference>
         <text_index>false</text_index>
         <unique>false</unique>
