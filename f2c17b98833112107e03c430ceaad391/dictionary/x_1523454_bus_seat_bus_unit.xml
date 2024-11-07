@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
     <element db_object_id="7128b7d0c3711210d26c38bc050131f6" label="Bus Unit" max_length="40" name="x_1523454_bus_seat_bus_unit" type="collection">
+        <element choice="1" label="Accessibility" max_length="40" name="accessibility" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Non-Aircon" sequence="200" value="non-aircon"/>
+                <element inactive_on_update="false" label="Aircon" sequence="100" value="aircon"/>
+            </choice>
+        </element>
         <element label="Number" max_length="40" name="number" type="integer"/>
+        <element label="Department schedule" max_length="40" name="department_schedule" type="glide_date_time"/>
+        <element label="Company" max_length="32" name="company" reference="x_1523454_bus_seat_bus_company" type="reference"/>
         <element choice="1" label="Status" max_length="40" name="status" type="choice">
             <choice>
                 <element inactive_on_update="false" label="Under Maintenance" sequence="300" value="under maintenance"/>
@@ -8,17 +16,12 @@
                 <element inactive_on_update="false" label="Out of Service" sequence="200" value="out of service"/>
             </choice>
         </element>
-        <element choice="1" label="Accessibility" max_length="40" name="accessibility" type="choice">
-            <choice>
-                <element inactive_on_update="false" label="Non-Aircon" sequence="200" value="non-aircon"/>
-                <element inactive_on_update="false" label="Aircon" sequence="100" value="aircon"/>
-            </choice>
-        </element>
-        <element label="Department schedule" max_length="40" name="department_schedule" type="glide_date_time"/>
-        <element label="Company" max_length="1000" name="company" type="string"/>
         <element label="Bus Stops" max_length="32" name="bus_stops" reference="x_1523454_bus_seat_bus_stop" type="reference"/>
         <index name="index">
             <element name="bus_stops"/>
+        </index>
+        <index name="index2">
+            <element name="company"/>
         </index>
     </element>
 </database>

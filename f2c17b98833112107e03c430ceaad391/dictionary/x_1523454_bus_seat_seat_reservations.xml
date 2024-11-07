@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="f669b314c37112109541facc050131fd" label="Seat Reservations" max_length="40" name="x_1523454_bus_seat_seat_reservations" type="collection">
+        <element label="Applicant" max_length="50" name="applicant" type="string"/>
+        <element label="Destination" max_length="32" name="destination" reference="x_1523454_bus_seat_bus_stop" type="reference"/>
+        <element label="Origin" max_length="32" name="origin" reference="x_1523454_bus_seat_bus_stop" type="reference"/>
+        <element label="Bus" max_length="32" name="bus" reference="x_1523454_bus_seat_bus_unit" type="reference"/>
+        <element attributes="edge_encryption_enabled=true" label="Cost" max_length="20" name="cost" type="decimal"/>
+        <element attributes="edge_encryption_enabled=true" choice="1" label="Status" max_length="40" name="status" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Canceled" sequence="500" value="canceled"/>
+                <element inactive_on_update="false" label="Rejected" sequence="300" value="rejected"/>
+                <element inactive_on_update="false" label="Awaiting Approval" sequence="100" value="awaiting approval"/>
+                <element inactive_on_update="false" label="Completed" sequence="400" value="completed"/>
+                <element inactive_on_update="false" label="Approved" sequence="200" value="approved"/>
+            </choice>
+        </element>
+        <element attributes="edge_encryption_enabled=true" label="Seat Number" max_length="40" name="seat_number" type="integer"/>
+        <index name="index">
+            <element name="bus"/>
+        </index>
+        <index name="index2">
+            <element name="destination"/>
+        </index>
+        <index name="index3">
+            <element name="origin"/>
+        </index>
+    </element>
+</database>
