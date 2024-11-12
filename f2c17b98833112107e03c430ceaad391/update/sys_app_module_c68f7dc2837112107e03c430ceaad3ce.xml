@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_app_module">
+    <sys_app_module action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <application display_value="Bus Seat Reservation">2d93b35c833112107e03c430ceaad3f3</application>
+        <assessment/>
+        <device_type/>
+        <filter table="x_1523454_bus_seat_seat_reservations">status=completed^sys_created_onONThis month@javascript:gs.beginningOfThisMonth()@javascript:gs.endOfThisMonth()^EQ<item display_value="Completed" endquery="false" field="status" goto="false" newquery="false" operator="=" or="false" value="completed"/>
+            <item endquery="false" field="sys_created_on" goto="false" newquery="false" operator="ON" or="false" value="This month@javascript:gs.beginningOfThisMonth()@javascript:gs.endOfThisMonth()"/>
+            <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
+        </filter>
+        <hint/>
+        <homepage/>
+        <image/>
+        <link_type>REPORT</link_type>
+        <map_page/>
+        <mobile_title>Monthly Completed Reservations by Company</mobile_title>
+        <mobile_view_name>Mobile</mobile_view_name>
+        <name>x_1523454_bus_seat_seat_reservations</name>
+        <order/>
+        <override_menu_roles>false</override_menu_roles>
+        <query/>
+        <report display_value="Monthly Completed Reservations">3f028a86837112107e03c430ceaad393</report>
+        <require_confirmation>true</require_confirmation>
+        <roles/>
+        <sys_class_name>sys_app_module</sys_class_name>
+        <sys_created_by>kheisa.selma</sys_created_by>
+        <sys_created_on>2024-11-12 14:56:06</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>c68f7dc2837112107e03c430ceaad3ce</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>Monthly Completed Reservations by Company</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Bus Seat Reservation" source="x_1523454_bus_seat">f2c17b98833112107e03c430ceaad391</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Bus Seat Reservation">f2c17b98833112107e03c430ceaad391</sys_scope>
+        <sys_update_name>sys_app_module_c68f7dc2837112107e03c430ceaad3ce</sys_update_name>
+        <sys_updated_by>kheisa.selma</sys_updated_by>
+        <sys_updated_on>2024-11-12 15:09:12</sys_updated_on>
+        <timeline_page/>
+        <title>Monthly Completed Reservations by Company</title>
+        <uncancelable>false</uncancelable>
+        <view_name/>
+        <window_name/>
+    </sys_app_module>
+</record_update>
