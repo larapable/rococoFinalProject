@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[function ($scope, spUtil, $rootScope, $timeout, spAriaUtil, spGtd, $window, i18n) {
+	var KEY_ENTER = 13;
+	$scope.collapse = function() {
+		$rootScope.$emit('sp-navbar-collapse');
+	}
+	$scope.loadingIndicator = $rootScope.loadingIndicator;
+	$scope.cartItemCount = 0;
+	$scope.wishlistItemCount = 0;
+	$scope.toursTooltipEnabled = true;
+	$scope.currentTour = spGtd.getCurrentTour();
+	$scope.accessibilityEnabled = spAriaUtil.g_accessibility === "true";
+	var isCartCountSetAtleastOnce = false;
+	var cancelTooltipPromise;
+	$scope.$on("$sp.service_catalog.cart.count", function($evt, count) {
+		var previousCount = $scope.cartItemCount;
+		$scope.cartItemCount = count;
+		if (previousCount >= $scope.cartItemCount)
+			return;
+		if (!isCartCountSetAtleastOnce) {
+			isCartCountSetAtleastOnce = true;
+			return;
+		}
+		$timeout.cancel(cancelTooltipPromise);
+		$timeout(function() {
+			setCartTooltipVisibility(true);
+		});
+		cancelTooltipPromise = $timeout(function() {
+			setCartTooltipVisibility(false);
+		}, 3000);
+	});
+	$scope.$on("$sp.service_catalog.wishlist.count", function($evt, count) {
+		$scope.wishlistItemCount = count;
+	});
+	$scope.$on('sp_loading_indicator', function(e, value) {
+		$scope.loadingIndicator = value;
+	});
+	function setCartTooltipVisibility(value) {
+		$("#cart-dropdown").tooltip(value ? "show": "hide");
+	};
+	$scope.toggleTours = function() {
+		var action = $scope.toursTooltipEnabled ? 'disable' : 'enable';
+		$scope.toursTooltipEnabled = $scope.toursTooltipEnabled ? false : true;
+		$('[data-toggle-second="tooltip"]').tooltip(action);
+		if(action == 'disable')
+			$('[data-toggle-second="tooltip"]').tooltip('hide');
+		$scope.currentTour = spGtd.getCurrentTour();
+	}
+	$scope.endTour = function() {
+	  spGtd.endTour();
+	}
+	$scope.endTourByKeyDown = function(e) {
+		if(e.which === KEY_ENTER) {
+		  spGtd.endTour();
+		}
+	}
+	$scope.onToursItemBlur = function() {
+		$('[data-toggle-second="tooltip"]').tooltip('enable');
+		$scope.toursTooltipEnabled = true;
+	}
+	// PRB1108244: visibleItems array is used to improve keyboard nav
+	// in menu, refresh it as needed
+	$scope.$watch('data.menu.items', function() {
+		$scope.visibleItems = [];
+		if ($scope.data.menu.items) {
+			for (var i in $scope.data.menu.items) {
+				var item = $scope.data.menu.items[i];
+				if (item.items || (item.scriptedItems && item.scriptedItems.count != 0))
+					$scope.visibleItems.push(item);
+			}
+		}
+	}, true);
+  $scope.$on('sp-tour-ended', function() {
+	  $timeout(function(){$scope.currentTour = null});
+    $timeout(function() {
+		  $('.dropdown-menu a:visible', $('.gtd-dropdown-container')).first().focus();
+	  }, 5);
+  });
+  $scope.$on('sp-menu-update-tours', function(event, tours) {
+    $scope.data.showTours = $scope.data.showTours && !spUtil.isMobile();
+    if ($scope.data.showTours === false) {
+			$scope.data.guidedTours = null;
+			return;
+	}
+    var guidedToursLabel = 'Guided Tours';
+    $scope.data.guidedTours = {
+		label: guidedToursLabel,
+		collection: []
+	};
+    $scope.tooltipTours = tours.length === 1 ? i18n.getMessage('This page currently has 1 tour') : i18n.getMessage('This page currently has {0} tours').withValues([tours.length])
+    if (tours.length > 0) {
+      $scope.data.guidedTours.collection = tours.map(function(t) {
+        return {
+          title:  t.name,
+          id: t.id,
+          clicked: function() {
+            spGtd.launch(t.id);
+          }
+        };
+      });
+    }
+  });
+	// Get list of record watchers
+	var record_watchers = [];
+	if ($scope.data.menu.items) {
+		for(var i in $scope.data.menu.items) {
+			var item = $scope.data.menu.items[i];
+			if (item.type == 'scripted') {
+				if (item.scriptedItems.record_watchers)
+					record_watchers = record_watchers.concat(item.scriptedItems.record_watchers);
+			}
+			if (item.type == 'filtered') {
+				record_watchers.push({'table':item.table,'filter':item.filter});
+			}
+		}
+	}
+	// Init record watchers
+	for (var y in record_watchers){
+		var watcher = record_watchers[y];
+		spUtil.recordWatch($scope, watcher.table, watcher.filter);
+	}
+  $rootScope.$broadcast('sp-header-loaded');
+}]]></client_script>
+        <controller_as>c</controller_as>
+        <css>.header-loader {
+	float: left;
+  	width: 24px;
+  	position: relative;
+  	top: 24px;
+}
+
+.cart-dropdown, .wishlist-menu, .gtd-dropdown-container .empty-dropdown {
+  width: 350px;
+  padding: 0;
+  z-index: 1000;
+  border-top-left-radius: 4px !important;
+  border-top-right-radius: 4px !important;
+
+  ul {
+    max-height: 300px;
+    overflow: auto;
+  }
+
+  .subtotal {
+    display: block;
+  }
+
+  .item-image {
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    max-width:100%;
+    height:auto;
+  }
+  label, p {
+    padding: 0;
+    margin: 0;
+  }
+  .media {
+    padding: 0;
+    margin: 0;
+  }
+  .media-left &gt; a {
+    display: block;
+    width: 48px;
+    max-width: 48px;
+  }
+  .media-body {
+    label {
+      font-weight: bold;
+    }
+  }
+  li.media {
+    border-top: 1px solid #cccccc;
+    padding: 1rem;
+  }
+  .panel {
+    margin: 0;
+  }
+  .panel .panel-body {
+    padding: 0;
+  }
+  .btn-clear {
+		color: #333;
+    background-color: #fff;
+  }
+  p.quantity-price {
+    padding-top: 0.5rem;
+    span {
+      color: $text-muted;
+      padding-right: 0.5rem;
+      unicode-bidi: isolate;
+    }
+  }
+  .align-right {
+  	text-align: right;
+  }
+}
+
+
+
+.item-added-tooltip, wishlist-item-added-tooltip {
+  width: 184px;
+  font-size: 14px;
+}
+
+.open &gt; .dropdown-menu {
+	padding: 0.5rem 0.2rem !important;
+}
+
+.gtd-dropdown-container {
+  .empty-tour-content{
+    text-align: center;
+    margin:40px 20px;
+  }
+  .dropdown-menu li {
+    a {
+      cursor: pointer;
+    }
+    min-width: 20em;
+  }
+  .label-as-badge{
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    padding: 0px;
+    padding-top: 2px;
+  }
+  .badge-container {
+    display: inline-block;
+    width: 12px;
+  }
+  .end-tour-menu {
+    width: 300px;
+    background-color: #fff;
+    .end-tour-body {
+       display:flex; 
+       flex-flow: column; 
+       margin: 5px; 
+       row-gap: 8px;
+    }
+    .end-tour-name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+@media  (max-width: 845px) and (min-width: 768px)  {
+	.header-menu-item ul {
+		right: auto;
+		left: auto;
+	}
+}
+@media (max-width: 767px) {
+	.empty-dropdown, .end-tour-menu {
+		width: auto !important;
+	}
+}
+</css>
+        <data_table>sp_instance_menu</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list>title</field_list>
+        <has_preview>false</has_preview>
+        <id>bsr_header_menu</id>
+        <internal>false</internal>
+        <link><![CDATA[function(scope, elem) {
+		function isMDScreenSize() {
+		return window.matchMedia('(max-width: 992px)').matches;
+	}
+	
+	var KEY = {
+		TAB : 9,
+		ENTER : 13,
+		ESC : 27,
+		SPACE_BAR : 32,
+		LEFT : 37,
+		UP : 38,
+		RIGHT : 39,
+		DOWN : 40
+	}
+
+	$('.navbar').on('keydown','[id="sp-nav-bar"]:visible',function(e) {
+		var mdScreenSize = isMDScreenSize();
+		var target = e.target;
+		if (target.localName == 'a') {
+			var currentMenuItem = $(target).parents('li').first();
+			var parentUL = currentMenuItem.parents('ul').first();
+			
+			var menuItem = currentMenuItem;
+			var targetInSubmenu = !currentMenuItem.is('.header-menu-item');
+			if (targetInSubmenu) {
+				menuItem = $(target).parents('li.header-menu-item').first();
+			}
+			
+			if (mdScreenSize && e.keyCode == KEY.RIGHT) {
+				if ($(target).is('.dropdown-toggle') || $(target).is('[data-toggle="dropdown"]')) { // Target is a main menu item with sub-menu
+					e.preventDefault();
+					e.stopPropagation();
+					currentMenuItem.addClass('open');
+					$('> a:visible', menuItem).attr("aria-expanded", "true");
+					currentMenuItem.find('.dropdown-menu a:visible').first().focus();
+				}
+			} else if (mdScreenSize && e.keyCode == KEY.LEFT) {
+				if (parentUL.is('.dropdown-menu')) { // Target is a sub-menu item
+					parentUL.parents('.header-menu-item').first().removeClass('open').find('> a:visible').first().focus();
+					setAriaExpnadedFalse(menuItem);
+				}
+			} else if ((mdScreenSize && e.keyCode == KEY.UP) || (!mdScreenSize && e.keyCode == KEY.LEFT)) {
+				handleFocus(false, e, mdScreenSize, menuItem, currentMenuItem, parentUL, targetInSubmenu);
+			} else if((mdScreenSize && e.keyCode == KEY.DOWN) || (!mdScreenSize && e.keyCode == KEY.RIGHT)) {
+				handleFocus(true, e, mdScreenSize, menuItem, currentMenuItem, parentUL, targetInSubmenu);
+			}
+			if(e.keyCode == KEY.TAB) {
+				if($(target).parents('li').hasClass('open'))
+					$(target).dropdown('toggle');
+				setAriaExpnadedFalse(menuItem);
+			}
+		}
+	});
+	
+	function setAriaExpnadedFalse(menuItem) {
+			if (menuItem.is('.dropdown'))
+				$('> a:visible', menuItem).attr("aria-expanded", "false");		
+	}
+
+	function handleFocus(next, event, mdScreenSize, menuItem, currentMenuItem, parentUL, targetInSubmenu) {
+		event.preventDefault();
+		
+		if (targetInSubmenu) {
+			var itemsInSubmenu = parentUL.find('li.visible');
+			var firstSubmenuItem = itemsInSubmenu.first();
+			var lastSubmenuItem = itemsInSubmenu.last();
+		}
+		var allMenuItems = $('li.header-menu-item:visible', '.navbar');
+		var firstMenuItem = allMenuItems.first();
+		var lastMenuItem = allMenuItems.last();
+
+		if (!mdScreenSize) {
+			currentMenuItem.removeClass('open');
+			setAriaExpnadedFalse(menuItem);
+
+			if (targetInSubmenu)
+				menuItem.removeClass('open');
+		} else {
+			event.stopPropagation();
+			if (!targetInSubmenu) {
+				menuItem.removeClass('open');
+				setAriaExpnadedFalse(menuItem);
+			}
+		}
+
+		var indexMenuItem = allMenuItems.index(menuItem);
+		var targetMenuItem = next ? allMenuItems.eq(indexMenuItem + 1) : allMenuItems.eq(indexMenuItem - 1);
+		var menuItemToFocus = targetMenuItem.length ? targetMenuItem : next ? firstMenuItem: lastMenuItem; //enable circular navigation
+
+		if (mdScreenSize && targetInSubmenu) {
+			targetMenuItem = next ? currentMenuItem.nextAll('li:visible').first() : currentMenuItem.prevAll('li:visible').first();
+			menuItemToFocus = targetMenuItem.length ? targetMenuItem : next ? firstSubmenuItem: lastSubmenuItem; //enable circular navigation
+		}
+		menuItemToFocus.find('a').focus();
+	}
+
+	$(elem).on('click', '[data-toggle="dropdown"]', function(e) {
+		var $target = $(e.target);
+		setTimeout(function() {
+			$('.dropdown-menu a:visible', $target.parents('.header-menu-item')).first().focus();
+		}, 0);
+	});
+
+	setTimeout(function(){
+		$('[data-toggle-second="tooltip"]').tooltip();
+		bsDropdownTooltipShim('#cart-dropdown', '#cart-dropdown-wrapper');
+		bsDropdownTooltipShim('#wishlist-menu', "#wishlist-menu-wrapper");
+	});
+	
+	function bsDropdownTooltipShim(tooltipTrigger, dropdownParent) {
+		if ($(dropdownParent).length) {
+			$(tooltipTrigger).tooltip();
+			$(dropdownParent).on('shown.bs.dropdown', function() {
+				$(tooltipTrigger).tooltip('disable');
+				$(tooltipTrigger).tooltip('hide');
+			});
+			$(dropdownParent).on('hidden.bs.dropdown', function() {
+				$(tooltipTrigger).tooltip('enable');
+			});
+		}
+	}
+}]]></link>
+        <name>BSR Header Menu</name>
+        <option_schema/>
+        <public>true</public>
+        <roles/>
+        <script><![CDATA[(function(){
+  // Set up the menu
+  data.menu = {};
+  data.menu.items = [
+    {
+      title: "Reservations",
+      url: "/reservations",
+      type: "link"
+    },
+    {
+      title: "Destinations",
+      url: "/destinations",
+      type: "link"
+    },
+    {
+      title: "Bus Companies",
+      url: "/bus-companies",
+      type: "link"
+    },
+    {
+      title: "Schedule",
+      url: "/schedule",
+      type: "link"
+    }
+  ];
+
+  // Handle user login status
+  data.isLoggedIn = GlideSession.get().isLoggedIn();
+
+  // Profile and login management
+  data.profileMenu = {};
+  if (data.isLoggedIn) {
+    data.profileMenu = {
+      profileUrl: "/profile",
+      logoutUrl: "/logout",
+      label: "Profile"
+    };
+  }
+
+  // If not logged in, show login link
+  if (!data.isLoggedIn) {
+    data.loginUrl = "/login";
+  }
+
+  // Check if guided tours are enabled and should be shown
+  data.guidedTours = {};
+  data.showTours = (gs.getProperty('com.snc.guided_tours.sp.enable') === 'true') && data.isLoggedIn;
+  if (!data.showTours) {
+    data.guidedTours = null;
+  }
+})();
+]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>joshua.biong</sys_created_by>
+        <sys_created_on>2024-11-12 15:47:32</sys_created_on>
+        <sys_id>b9db8e0683b112107e03c430ceaad305</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>BSR Header Menu</sys_name>
+        <sys_package display_value="Bus Seat Reservation" source="x_1523454_bus_seat">f2c17b98833112107e03c430ceaad391</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Bus Seat Reservation">f2c17b98833112107e03c430ceaad391</sys_scope>
+        <sys_update_name>sp_widget_b9db8e0683b112107e03c430ceaad305</sys_update_name>
+        <sys_updated_by>joshua.biong</sys_updated_by>
+        <sys_updated_on>2024-11-12 15:59:59</sys_updated_on>
+        <template><![CDATA[<ul class="nav navbar-nav" aria-label="${Header}">
+  <div class="header-loader" ng-class="{'invisible': !loadingIndicator}">
+    <div class="hidden-xs hidden-sm sp-loading-indicator la-sm">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+  
+  <!-- Loop through the menu items from the server-side data -->
+  <li ng-repeat="item in data.menu.items" class="header-menu-item">
+    <a href="{{item.url}}" aria-label="{{item.title}}">{{item.title}}</a>
+  </li>
+
+  <!-- Profile Dropdown (Login) -->
+  <li ng-if="data.isLoggedIn" class="dropdown header-menu-item">
+    <a href="#" id="profile-menu" data-toggle="dropdown" aria-label="${Profile}">
+      <span ng-bind-html="'${Profile}'" aria-hidden="true"></span>
+    </a>
+    <div class="dropdown-menu profile-dropdown">
+      <a href="{{data.profileMenu.profileUrl}}" class="dropdown-item" aria-label="${Profile}">{{'Profile'}}</a>
+      <a href="{{data.profileMenu.logoutUrl}}" class="dropdown-item" aria-label="${Logout}">{{'Logout'}}</a>
+    </div>
+  </li>
+  
+  <!-- Login (if not logged in) -->
+  <li ng-if="!data.isLoggedIn" class="header-menu-item">
+    <a href="{{data.loginUrl}}" aria-label="${Login}">{{'Login'}}</a>
+  </li>
+ 
+</ul>
+]]></template>
+    </sp_widget>
+</record_update>
