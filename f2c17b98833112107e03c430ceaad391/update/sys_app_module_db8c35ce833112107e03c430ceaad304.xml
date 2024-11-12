@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_app_module">
+    <sys_app_module action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <application display_value="Seat Reservations">a66c3fd4c37112109541facc050131a3</application>
+        <assessment/>
+        <device_type/>
+        <filter table="x_1523454_bus_seat_seat_reservations">sys_created_onONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()^sys_updated_onONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()^EQ<item endquery="false" field="sys_created_on" goto="false" newquery="false" operator="ON" or="false" value="Today@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()"/>
+            <item endquery="false" field="sys_updated_on" goto="false" newquery="false" operator="ON" or="false" value="Today@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()"/>
+            <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
+        </filter>
+        <hint/>
+        <homepage/>
+        <image/>
+        <link_type>LIST</link_type>
+        <map_page/>
+        <mobile_title>Daily </mobile_title>
+        <mobile_view_name>Mobile</mobile_view_name>
+        <name>x_1523454_bus_seat_seat_reservations</name>
+        <order/>
+        <override_menu_roles>false</override_menu_roles>
+        <query/>
+        <report/>
+        <require_confirmation>true</require_confirmation>
+        <roles>x_1523454_bus_seat.administrators,x_1523454_bus_seat.operators</roles>
+        <sys_class_name>sys_app_module</sys_class_name>
+        <sys_created_by>joshua.biong</sys_created_by>
+        <sys_created_on>2024-11-12 14:46:01</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>db8c35ce833112107e03c430ceaad304</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Daily Scheduled Reservation</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Bus Seat Reservation" source="x_1523454_bus_seat">f2c17b98833112107e03c430ceaad391</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Bus Seat Reservation">f2c17b98833112107e03c430ceaad391</sys_scope>
+        <sys_update_name>sys_app_module_db8c35ce833112107e03c430ceaad304</sys_update_name>
+        <sys_updated_by>joshua.biong</sys_updated_by>
+        <sys_updated_on>2024-11-12 14:46:01</sys_updated_on>
+        <timeline_page/>
+        <title>Daily Scheduled Reservation</title>
+        <uncancelable>false</uncancelable>
+        <view_name/>
+        <window_name/>
+    </sys_app_module>
+</record_update>
