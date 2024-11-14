@@ -13,27 +13,32 @@
 
   // Fetch available buses on load
   $scope.getBuses = function() {
+    console.log("Fetching buses..."); // Log to check the function call
     $http.get('/api/now/table/x_1523454_bus_seat_bus_unit')
       .then(function(response) {
+        console.log("Buses fetched successfully:", response.data.result); // Log fetched data
         $scope.data.buses = response.data.result;
       }, function(error) {
-        console.error("Error fetching buses:", error);
+        console.error("Error fetching buses:", error); // Log error if request fails
       });
   };
 
   // Fetch seats when a bus is selected
   $scope.onBusChange = function() {
+    console.log("Bus selected:", $scope.data.selectedBus); // Log selected bus data
     $scope.data.selectedSeat = null;  // Clear selected seat
     $http.get('/api/now/table/x_1523454_bus_seat_seat_reservations?bus=' + $scope.data.selectedBus.sys_id)
       .then(function(response) {
+        console.log("Seats fetched successfully:", response.data.result); // Log fetched seat data
         $scope.data.seats = response.data.result;
       }, function(error) {
-        console.error("Error fetching seats:", error);
+        console.error("Error fetching seats:", error); // Log error if request fails
       });
   };
 
   // Handle seat reservation selection
   $scope.reserveSeat = function(seat) {
+    console.log("Seat selected:", seat); // Log selected seat
     $scope.data.selectedSeat = seat;
     // Calculate fare based on bus data, example formula
     $scope.data.fare = $scope.data.selectedBus.baseFare;
@@ -48,12 +53,14 @@
       status: "Awaiting approval"
     };
 
+    console.log("Reservation data:", reservationData); // Log reservation data
+
     $http.post('/api/now/table/x_1523454_bus_seat_seat_reservations', reservationData)
       .then(function(response) {
         alert("Reservation confirmed!");
         $scope.data.selectedSeat.isReserved = true;  // Mark seat as reserved
       }, function(error) {
-        console.error("Error confirming reservation:", error);
+        console.error("Error confirming reservation:", error); // Log error if reservation fails
       });
   };
 
@@ -78,30 +85,35 @@ angular.module('sn.custom').controller('MyBusReservationController', MyBusReserv
         <name>Seat Reservation and Scheduling</name>
         <option_schema/>
         <public>true</public>
-        <roles/>
+        <roles>x_1523454_bus_seat.administrators,x_1523454_bus_seat.bus_stop_user,x_1523454_bus_seat.bus_unit_user,x_1523454_bus_seat.operators,x_1523454_bus_seat.seat_reservations_user,x_1523454_bus_seat.users</roles>
         <script><![CDATA[(function() {
   data.buses = [];
   
   // Query Bus records for availability
   var busGR = new GlideRecord('x_1523454_bus_seat_bus_unit');
   busGR.query();
+  
   while (busGR.next()) {
-    data.buses.push({
+    var bus = {
       sys_id: busGR.sys_id.toString(),
-      number: busGR.getValue('number'),  // Bus number
-      departure_schedule: busGR.getValue('department_schedule'),  // Departure schedule
-      company: getCompanyName(busGR.getValue('company')),  // Fetch company name from reference
-      accessibility: busGR.getValue('accessibility'),  // Accessibility (Aircon/Non-aircon)
-      bus_stops: getBusStops(busGR.getValue('bus_stops')),  // Fetch bus stop names from reference
-      status: busGR.getValue('status')  // Status (e.g., Available, Unavailable)
-    });
+      number: busGR.getValue('number'),
+      departure_schedule: busGR.getValue('department_schedule'),
+      company: getCompanyName(busGR.getValue('company')),
+      accessibility: busGR.getValue('accessibility'),
+      bus_stops: getBusStops(busGR.getValue('bus_stops')),
+      status: busGR.getValue('status')
+    };
+    
+    gs.info('Bus record: ' + JSON.stringify(bus)); // Log the bus data
+    
+    data.buses.push(bus);
   }
   
   // Function to fetch Company name (resolve reference field)
   function getCompanyName(companySysId) {
     var companyGR = new GlideRecord('x_1523454_bus_seat_bus_company');
     if (companyGR.get(companySysId)) {
-      return companyGR.getValue('name');  // Assuming 'name' is the field for the company name
+      return companyGR.getValue('name');
     }
     return 'Unknown Company';
   }
@@ -110,7 +122,7 @@ angular.module('sn.custom').controller('MyBusReservationController', MyBusReserv
   function getBusStops(busStopSysId) {
     var busStopGR = new GlideRecord('x_1523454_bus_seat_bus_stop');
     if (busStopGR.get(busStopSysId)) {
-      return busStopGR.getValue('name');  // Assuming 'name' is the field for the bus stop name
+      return busStopGR.getValue('name');
     }
     return 'Unknown Stop';
   }
@@ -121,14 +133,14 @@ angular.module('sn.custom').controller('MyBusReservationController', MyBusReserv
         <sys_created_by>lara.pable</sys_created_by>
         <sys_created_on>2024-11-14 16:41:52</sys_created_on>
         <sys_id>c57b2872833512107e03c430ceaad3db</sys_id>
-        <sys_mod_count>4</sys_mod_count>
+        <sys_mod_count>6</sys_mod_count>
         <sys_name>Seat Reservation and Scheduling</sys_name>
         <sys_package display_value="Bus Seat Reservation" source="x_1523454_bus_seat">f2c17b98833112107e03c430ceaad391</sys_package>
         <sys_policy/>
         <sys_scope display_value="Bus Seat Reservation">f2c17b98833112107e03c430ceaad391</sys_scope>
         <sys_update_name>sp_widget_c57b2872833512107e03c430ceaad3db</sys_update_name>
         <sys_updated_by>lara.pable</sys_updated_by>
-        <sys_updated_on>2024-11-14 17:11:35</sys_updated_on>
+        <sys_updated_on>2024-11-14 17:27:08</sys_updated_on>
         <template><![CDATA[<div class="bus-seat-reservation">
   <h2>Bus Seat Reservation</h2>
   

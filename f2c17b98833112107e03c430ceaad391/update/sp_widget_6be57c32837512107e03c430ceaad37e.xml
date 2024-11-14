@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[function MyBusReservationController($scope, $http, spUtil) {
+    var c = this;
+
+    // Initialize variables for buses, seats, and reservation data
+    c.buses = [];
+    c.seats = [];
+    c.selectedBus = null;
+    c.selectedSeat = null;
+    c.userName = '';
+    c.userEmail = '';
+    c.fare = 0;
+    c.reservationConfirmed = false;
+
+    // Function to fetch available buses
+    c.fetchBuses = function() {
+        // Call the server-side function 'getBuses'
+        c.server.getBuses().then(function(response) {
+            c.buses = response.data; // Make sure the response.data contains the array of buses
+            console.log("Fetched buses:", c.buses);  // Add a log to check the response
+        }).catch(function(error) {
+            spUtil.addErrorMessage("Error occurred while fetching buses.");
+            console.error(error);
+        });
+    };
+
+    // Function to fetch available seats for a selected bus
+    c.fetchSeats = function(busSysId) {
+        // Call the server-side function 'getSeats'
+        c.server.getSeats(busSysId).then(function(response) {
+            c.seats = response.data; // Make sure the response.data contains the available seats
+            console.log("Fetched seats for bus:", c.seats);  // Log to verify seats are fetched correctly
+        }).catch(function(error) {
+            spUtil.addErrorMessage("Error occurred while fetching seats.");
+            console.error(error);
+        });
+    };
+
+    // Function to calculate the fare for the selected bus
+    c.calculateFare = function(busSysId) {
+        // Use a traditional function instead of an arrow function
+        var selectedBus = c.buses.find(function(bus) {
+            return bus.sys_id === busSysId;
+        });
+        c.fare = selectedBus ? selectedBus.fare : 0; // Assuming the fare is available in the Bus Unit record
+    };
+
+    // Function to submit the reservation
+    c.submitReservation = function() {
+        if (!c.selectedBus || !c.selectedSeat || !c.userName || !c.userEmail) {
+            spUtil.addErrorMessage("Please fill out all required fields.");
+            return;
+        }
+
+        var reservationData = {
+            busSysId: c.selectedBus.sys_id,
+            seatSysId: c.selectedSeat.sys_id,
+            applicantName: c.userName,
+            email: c.userEmail,
+            fare: c.fare
+        };
+
+        // Call the server-side function 'createReservation'
+        c.server.createReservation(reservationData).then(function(response) {
+            c.reservationConfirmed = true;
+            spUtil.addInfoMessage("Your seat has been successfully reserved!");
+        }).catch(function(error) {
+            spUtil.addErrorMessage("Error occurred while reserving your seat.");
+            console.error(error);
+        });
+    };
+
+    // Fetch buses when the widget is loaded
+    c.fetchBuses();
+}
+]]></client_script>
+        <controller_as>c</controller_as>
+        <css/>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>seat_res_sched</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {
+  
+}]]></link>
+        <name>Seat Res and Sched</name>
+        <option_schema/>
+        <public>true</public>
+        <roles/>
+        <script><![CDATA[(function() {
+    // Function to get a list of available buses
+    data.getBuses = function() {
+        var buses = [];
+        
+        // Query the Bus Unit table for active buses
+        var busGr = new GlideRecord('x_1523454_bus_seat_bus_unit');
+        busGr.addQuery('status', 'available'); // Check if the status is "available"
+        busGr.query();
+        
+        while (busGr.next()) {
+            buses.push({
+                sys_id: busGr.sys_id.toString(),
+                name: busGr.number.toString(), // Change "name" to "number" if that's the field for bus name
+                departure_schedule: busGr.departure_schedule.toString(),
+                fare: busGr.fare.toString() // Ensure "fare" is a field in the Bus Unit table
+            });
+        }
+        
+        return buses; // Return the list of buses to the client script
+    };
+
+    // Function to get available seats for a given bus
+    data.getSeats = function(busSysId) {
+        var seats = [];
+        
+        // Query the Seat Reservations table for available seats on the selected bus
+        var seatGr = new GlideRecord('x_1523454_bus_seat_seat_reservations');
+        seatGr.addQuery('bus', busSysId);
+        seatGr.addQuery('status', 'Available'); // Only available seats
+        seatGr.query();
+        
+        while (seatGr.next()) {
+            seats.push({
+                sys_id: seatGr.sys_id.toString(),
+                number: seatGr.seat_number.toString() // Assuming seat_number is the field in Seat Reservations table
+            });
+        }
+        
+        return seats; // Return the available seats to the client script
+    };
+
+    // Function to create a new seat reservation
+    data.createReservation = function(reservationData) {
+        var reservationGr = new GlideRecord('x_1523454_bus_seat_seat_reservations');
+        
+        // Initialize a new reservation record
+        reservationGr.initialize();
+        reservationGr.bus = reservationData.busSysId;
+        reservationGr.seat = reservationData.seatSysId;
+        reservationGr.applicant = reservationData.applicantName;
+        reservationGr.email = reservationData.email;
+        reservationGr.status = 'Awaiting approval'; // Default status
+        reservationGr.cost = reservationData.fare;
+        reservationGr.seat_number = reservationData.seatSysId; // Assign seat number
+        
+        // Insert the reservation record and return the Sys ID
+        var reservationSysId = reservationGr.insert();
+        
+        // Optionally, you can trigger a notification here or send an email
+        // to the operator confirming the reservation
+        
+        return reservationSysId; // Return the Sys ID of the newly created reservation
+    };
+})();
+]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>lara.pable</sys_created_by>
+        <sys_created_on>2024-11-14 17:29:50</sys_created_on>
+        <sys_id>6be57c32837512107e03c430ceaad37e</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>Seat Res and Sched</sys_name>
+        <sys_package display_value="Bus Seat Reservation" source="x_1523454_bus_seat">f2c17b98833112107e03c430ceaad391</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Bus Seat Reservation">f2c17b98833112107e03c430ceaad391</sys_scope>
+        <sys_update_name>sp_widget_6be57c32837512107e03c430ceaad37e</sys_update_name>
+        <sys_updated_by>lara.pable</sys_updated_by>
+        <sys_updated_on>2024-11-14 17:41:57</sys_updated_on>
+        <template><![CDATA[<div class="reservation-widget">
+    <h2>Bus Seat Reservation</h2>
+    
+    <form ng-submit="c.submitReservation()">
+        <label for="bus">Select Bus:</label>
+        <select ng-model="c.selectedBus" ng-options="bus.name for bus in c.buses track by bus.sys_id" required>
+            <option value="">-- Select Bus --</option>
+        </select>
+        
+        <label for="seat">Select Seat:</label>
+        <select ng-model="c.selectedSeat" ng-options="seat.number for seat in c.seats track by seat.sys_id" required>
+            <option value="">-- Select Seat --</option>
+        </select>
+        
+        <label for="cost">Fare:</label>
+        <input type="text" ng-model="c.fare" readonly />
+        
+        <label for="user">Your Name:</label>
+        <input type="text" ng-model="c.userName" required />
+        
+        <label for="email">Your Email:</label>
+        <input type="email" ng-model="c.userEmail" required />
+        
+        <button type="submit" class="btn btn-primary">Reserve Seat</button>
+    </form>
+    
+    <div class="confirmation" ng-if="c.reservationConfirmed">
+        <h3>Reservation Confirmed!</h3>
+        <p>Your seat has been successfully reserved.</p>
+    </div>
+</div>
+]]></template>
+    </sp_widget>
+</record_update>
