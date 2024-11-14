@@ -267,7 +267,7 @@
         <docs/>
         <field_list>title</field_list>
         <has_preview>false</has_preview>
-        <id>bsr_header_menu</id>
+        <id>clone_headermenu</id>
         <internal>false</internal>
         <link><![CDATA[function(scope, elem) {
 		function isMDScreenSize() {
@@ -392,75 +392,51 @@
 		}
 	}
 }]]></link>
-        <name>BSR Header Menu</name>
+        <name>clone_headerMenu</name>
         <option_schema/>
         <public>true</public>
         <roles/>
         <script><![CDATA[(function(){
-  // Set up the menu
-  data.menu = {};
-  data.menu.items = [
-    {
-      title: "Reservationssdsds",
-      url: "/reservations",
-      type: "link"
-    },
-    {
-      title: "Destinations",
-      url: "/destinations",
-      type: "link"
-    },
-    {
-      title: "Bus Companies",
-      url: "/bus-companies",
-      type: "link"
-    },
-    {
-      title: "Schedule",
-      url: "/schedule",
-      type: "link"
-    }
-  ];
+	// build menus
+	var menu_id = $sp.getValue('sys_id'); // instance sys_id
+	data.menu = {};
+	data.menu.items = $sp.getMenuItems(menu_id);
+	data.isLoggedIn = GlideSession.get().isLoggedIn();
+	data.guidedTours = {};
+	// Show tours only if gtd's sp sys property is set
+	data.showTours = (gs.getProperty('com.snc.guided_tours.sp.enable') === 'true') && data.isLoggedIn;
+	if (!data.showTours) {
+	data.guidedTours = null;
+	}
+	var catalogArr = ($sp.getCatalogs().value + "").split(",");
 
-  // Handle user login status
-  data.isLoggedIn = GlideSession.get().isLoggedIn();
-
-  // Profile and login management
-  data.profileMenu = {};
-  if (data.isLoggedIn) {
-    data.profileMenu = {
-      profileUrl: "/profile",
-      logoutUrl: "/logout",
-      label: "Profile"
-    };
-  }
-
-  // If not logged in, show login link
-  if (!data.isLoggedIn) {
-    data.loginUrl = "/bsr_login";
-  }
-
-  // Check if guided tours are enabled and should be shown
-  data.guidedTours = {};
-  data.showTours = (gs.getProperty('com.snc.guided_tours.sp.enable') === 'true') && data.isLoggedIn;
-  if (!data.showTours) {
-    data.guidedTours = null;
-  }
-})();
-]]></script>
+	catalogArr.forEach(function(catalog) {
+		data.showWishlist = data.showWishlist || new sn_sc.Catalog(catalog).isWishlistEnabled();
+	});
+	if (data.isLoggedIn) {
+		if (options.enable_wishlist && data.showWishlist)
+			data.wishlistWidget = $sp.getWidget("sc_wishlist_cart", {wishlistTemplate: "small_wishlist.html", auto_update_wishlist:options.auto_update_wishlist});
+		if (options.enable_cart) {
+			if (gs.getProperty("glide.sc.portal.use_cart_v2_header", "false") === "true")
+				data.cartWidget = $sp.getWidget("sc-shopping-cart-v2", {cartTemplate: "small_shopping_cart_v2.html", auto_update_cart:options.auto_update_cart});
+			else
+				data.cartWidget = $sp.getWidget("sc-shopping-cart", {cartTemplate: "small_shopping_cart.html", auto_update_cart:options.auto_update_cart});
+		}
+	}
+})();]]></script>
         <servicenow>false</servicenow>
         <sys_class_name>sp_widget</sys_class_name>
-        <sys_created_by>joshua.biong</sys_created_by>
-        <sys_created_on>2024-11-12 15:47:32</sys_created_on>
-        <sys_id>b9db8e0683b112107e03c430ceaad305</sys_id>
-        <sys_mod_count>5</sys_mod_count>
-        <sys_name>BSR Header Menu</sys_name>
+        <sys_created_by>lara.pable</sys_created_by>
+        <sys_created_on>2024-11-14 14:46:25</sys_created_on>
+        <sys_id>8a0194fe837112107e03c430ceaad30d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>clone_headerMenu</sys_name>
         <sys_package display_value="Bus Seat Reservation" source="x_1523454_bus_seat">f2c17b98833112107e03c430ceaad391</sys_package>
         <sys_policy/>
         <sys_scope display_value="Bus Seat Reservation">f2c17b98833112107e03c430ceaad391</sys_scope>
-        <sys_update_name>sp_widget_b9db8e0683b112107e03c430ceaad305</sys_update_name>
+        <sys_update_name>sp_widget_8a0194fe837112107e03c430ceaad30d</sys_update_name>
         <sys_updated_by>lara.pable</sys_updated_by>
-        <sys_updated_on>2024-11-14 14:38:25</sys_updated_on>
+        <sys_updated_on>2024-11-14 14:46:25</sys_updated_on>
         <template><![CDATA[<ul class="nav navbar-nav" aria-label="${Header}">
   <div class="header-loader" ng-class="{'invisible': !loadingIndicator}">
     <div class="hidden-xs hidden-sm sp-loading-indicator la-sm">
@@ -469,29 +445,108 @@
       <div></div>
     </div>
   </div>
-  
-  <!-- Loop through the menu items from the server-side data -->
-  <li ng-repeat="item in data.menu.items" class="header-menu-item">
-    <a href="{{item.url}}" aria-label="{{item.title}}">{{item.title}}</a>
-  </li>
-
-  <!-- Profile Dropdown (Login) -->
-  <li ng-if="data.isLoggedIn" class="dropdown header-menu-item">
-    <a href="#" id="profile-menu" data-toggle="dropdown" aria-label="${Profile}">
-      <span ng-bind-html="'${Profile}'" aria-hidden="true"></span>
-    </a>
-    <div class="dropdown-menu profile-dropdown">
-      <a href="{{data.profileMenu.profileUrl}}" class="dropdown-item" aria-label="${Profile}">{{'Profile'}}</a>
-      <a href="{{data.profileMenu.logoutUrl}}" class="dropdown-item" aria-label="${Logout}">{{'Logout'}}</a>
+  <li ng-repeat="item in visibleItems" ng-class="{dropdown: item.items.length > 0, 'header-menu-item': true}" ng-include="'menuTemplate'"></li>
+<!-- Wishlist menu -->
+  <li ng-if="options.enable_wishlist && data.isLoggedIn && data.showWishlist && !accessibilityEnabled" id="wishlist-menu-wrapper" class="dropdown hidden-xs header-menu-item">
+  	<a role="button" href="javascript:void(0)"
+       data-toggle="dropdown"
+       id="wishlist-menu"
+       data-placement="bottom"
+       data-original-title="${Your Wish List currently has} {{wishlistItemCount}} ${items}"
+       aria-label="${Wish List}">
+      <span ng-bind-html="'${Wish List}'" aria-hidden="true"></span>
+      <span ng-if="wishlistItemCount > 0" aria-hidden="true" class="label label-as-badge label-primary sp-navbar-badge-count">{{wishlistItemCount}}</span>
+		</a>
+    <div class="dropdown-menu wishlist-menu custom-drop-down">
+      <sp-widget widget="data.wishlistWidget"></sp-widget>
     </div>
   </li>
-  
-  <!-- Login (if not logged in) -->
-  <li ng-if="!data.isLoggedIn" class="header-menu-item">
-    <a href="{{data.loginUrl}}" aria-label="${Login}">{{'Login'}}</a>
+  <li ng-if="options.enable_wishlist && data.isLoggedIn && data.showWishlist" class="dropdown" ng-class="{'visible-xs': !accessibilityEnabled}">
+  	<a href="?id=sc_wishlist"
+       title="${Your Wish List currently has} {{wishlistItemCount}} ${items}"
+       data-toggle="tooltip"
+       data-placement="bottom"
+       class="toggle-dropdown"
+       role="button"
+       aria-label="${Your Wish List currently has} {{wishlistItemCount}} ${items}">
+      <span ng-bind-html="'${Wish List}'" aria-hidden="true"></span>
+      <span ng-if="wishlistItemCount > 0" aria-hidden="true" class="label label-as-badge label-primary sp-navbar-badge-count">{{wishlistItemCount}}</span>
+		</a>
   </li>
- 
-</ul>
-]]></template>
+  <!-- Shopping cart stuff -->
+ <li ng-if="::options.enable_cart && data.isLoggedIn && !accessibilityEnabled" id="cart-dropdown-wrapper" class="dropdown hidden-xs header-menu-item">
+  	<a href
+       data-toggle="dropdown"
+       id="cart-dropdown"
+       data-placement="bottom"
+       data-original-title="${Your shopping cart currently has} {{cartItemCount}} ${items}"
+       aria-label="${Shopping cart}"
+       role="button">
+    	<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+      <span ng-bind-html="'${Cart}'" aria-hidden="true"></span>
+      <span ng-if="cartItemCount > 0" aria-hidden="true" class="label label-as-badge label-primary sp-navbar-badge-count">{{cartItemCount}}</span>
+		</a>
+    <div class="dropdown-menu cart-dropdown custom-drop-down">
+      <sp-widget widget="data.cartWidget"></sp-widget>
+    </div>
+  </li>
+  <li ng-if="::options.enable_cart && data.isLoggedIn" class="header-menu-item" ng-class="::{'visible-xs': !accessibilityEnabled}">
+  	<a ng-href="?id=sc_cart"
+       ng-click="collapse()"
+       data-toggle="tooltip"
+       data-placement="bottom"
+       data-original-title="${Your shopping cart currently has} {{cartItemCount}} ${items}"
+       class="toggle-dropdown"
+       aria-label="${Your shopping cart currently has} {{cartItemCount}} ${items}">
+    	<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+      <span ng-bind-html="'${Cart}'" aria-hidden="true"></span>
+      <span ng-if="cartItemCount > 0" aria-hidden="true" class="label label-as-badge label-primary sp-navbar-badge-count">{{cartItemCount}}</span>
+	</a>
+  </li>
+  <li ng-if="data.isLoggedIn && data.guidedTours" class="dropdown header-menu-item gtd-dropdown-container">
+    <a href
+       data-toggle="dropdown"
+       id="tour-dropdown"
+       data-placement="bottom"
+       data-toggle-second="tooltip"
+       ng-click="toggleTours()"
+       ng-blur="onToursItemBlur()"
+       data-original-title="{{tooltipTours}}"
+       aria-label="{{data.guidedTours.label}}"
+       role="button">
+      <span ng-bind-html="'${Tours}'" aria-hidden="true"></span>
+      <span class='badge-container' ng-if="data.guidedTours.collection.length > 0">
+        <span aria-hidden="true" class="label label-as-badge label-primary sp-navbar-badge-count">
+          &nbsp;
+       </span>
+      </span>
+    </a>
+    <div ng-if="data.guidedTours.collection.length < 1 && !currentTour" class="dropdown-menu empty-dropdown">
+      <div class="panel ng-scope">
+       <div class="panel-body">
+        <div class="empty-tour-content" role="alert">
+         <h4>${You have no tours on this page}</h4>
+         <p>${Tours appear when your administrator creates them on specific pages}</p>
+        </div>
+       </div>
+      </div>
+    </div>
+    <ul ng-if="data.guidedTours.collection.length > 0 && !currentTour" class="dropdown-menu"
+        role="menu" aria-label="${Tours}">
+      <li ng-repeat="mi in data.guidedTours.collection"
+          class="ng-scope dropdown-menu-line">
+        <a role="button" href title="{{::mi.title}}" target="{{::mi.target}}" ng-click="mi.clicked()">
+          {{::mi.title | characters:60}}
+        </a>
+      </li>
+    </ul>
+    <div ng-if="currentTour" tabindex="0" class="dropdown-menu end-tour-menu" aria-label="${End Current Tour}: {{currentTour.name}}">
+      <div class="end-tour-body ng-scope">
+          <a type="button" class="btn btn-primary" tabindex="0" ng-click="endTour()" ng-keydown="endTourByKeyDown($event)">${End Tour}</a>
+          <p class="end-tour-name" title="{{currentTour.name}}">${Current Tour}: {{currentTour.name}}</p>
+	    </div>
+    </div>
+  </li>
+</ul>]]></template>
     </sp_widget>
 </record_update>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_instance_ais">
+    <sp_instance_ais action="DELETE">
+        <active>true</active>
+        <ai_search_source_filter/>
+        <class_name/>
+        <color>default</color>
+        <css/>
+        <disable_all_suggestions>false</disable_all_suggestions>
+        <glyph/>
+        <id/>
+        <order>1</order>
+        <placeholder/>
+        <roles/>
+        <search_application/>
+        <search_results_configuration/>
+        <short_description/>
+        <size>md</size>
+        <sp_column display_value="1">4ef48aca837112107e03c430ceaad374</sp_column>
+        <sp_widget display_value="Homepage Search">200fbd96cb20020000f8d856634c9ca1</sp_widget>
+        <spell_check_font_size>xl</spell_check_font_size>
+        <sys_class_name>sp_instance_ais</sys_class_name>
+        <sys_created_by>bianca.carabio</sys_created_by>
+        <sys_created_on>2024-11-12 15:17:44</sys_created_on>
+        <sys_id>95050eca837112107e03c430ceaad3be</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Bus Seat Reservation" source="x_1523454_bus_seat">f2c17b98833112107e03c430ceaad391</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Bus Seat Reservation">f2c17b98833112107e03c430ceaad391</sys_scope>
+        <sys_update_name>sp_instance_ais_95050eca837112107e03c430ceaad3be</sys_update_name>
+        <sys_updated_by>lara.pable</sys_updated_by>
+        <sys_updated_on>2024-11-14 14:06:04</sys_updated_on>
+        <title/>
+        <url/>
+        <widget_parameters/>
+    </sp_instance_ais>
+    <sys_translated_text action="DELETE" query="documentkey=95050eca837112107e03c430ceaad3be"/>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Bus Seat Reservation">f2c17b98833112107e03c430ceaad391</application>
+        <file_path/>
+        <instance_id>4c284b521b894618168f4089bd4bcb16</instance_id>
+        <instance_name>dev248503</instance_name>
+        <name>sp_instance_ais_95050eca837112107e03c430ceaad3be</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_instance_ais"><sp_instance_ais action="INSERT_OR_UPDATE"><active>true</active><ai_search_source_filter/><class_name/><color>default</color><css/><disable_all_suggestions>false</disable_all_suggestions><glyph/><id/><order>1</order><placeholder/><roles/><search_application/><search_results_configuration/><short_description/><size>md</size><sp_column display_value="1">4ef48aca837112107e03c430ceaad374</sp_column><sp_widget display_value="Homepage Search">200fbd96cb20020000f8d856634c9ca1</sp_widget><spell_check_font_size>xl</spell_check_font_size><sys_class_name>sp_instance_ais</sys_class_name><sys_created_by>bianca.carabio</sys_created_by><sys_created_on>2024-11-12 15:17:44</sys_created_on><sys_id>95050eca837112107e03c430ceaad3be</sys_id><sys_mod_count>2</sys_mod_count><sys_name/><sys_package display_value="Bus Seat Reservation" source="x_1523454_bus_seat">f2c17b98833112107e03c430ceaad391</sys_package><sys_policy/><sys_scope display_value="Bus Seat Reservation">f2c17b98833112107e03c430ceaad391</sys_scope><sys_update_name>sp_instance_ais_95050eca837112107e03c430ceaad3be</sys_update_name><sys_updated_by>lara.pable</sys_updated_by><sys_updated_on>2024-11-14 14:06:04</sys_updated_on><title/><url/><widget_parameters/></sp_instance_ais><sys_translated_text action="delete_multiple" query="documentkey=95050eca837112107e03c430ceaad3be"/></record_update>]]></payload>
+        <payload_hash>26712487</payload_hash>
+        <record_name/>
+        <reverted_from/>
+        <source>a40df7a2833112107e03c430ceaad392</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>lara.pable</sys_created_by>
+        <sys_created_on>2024-11-14 14:06:04</sys_created_on>
+        <sys_id>07c7c436837112107e03c430ceaad360</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1932afed7730000001</sys_recorded_at>
+        <sys_updated_by>lara.pable</sys_updated_by>
+        <sys_updated_on>2024-11-14 14:06:04</sys_updated_on>
+        <type>Instance with Search</type>
+        <update_guid>8bc7c436f97112103d136dcb9b04e15f</update_guid>
+        <update_guid_history>8bc7c436f97112103d136dcb9b04e15f:26712487,22311e0ea8b11210814e39b8445d6178:-377651224,d9050eca2a7112104bab4191bd5df7c0:26712487</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="">b0e70cf2837112107e03c430ceaad3d7</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>lara.pable</sys_created_by>
+        <sys_created_on>2024-11-14 14:06:28</sys_created_on>
+        <sys_db_object display_value="" name="sp_instance_ais">sp_instance_ais</sys_db_object>
+        <sys_id>5cadd3b5b2934aaeb277db0ea141ba84</sys_id>
+        <sys_metadata>95050eca837112107e03c430ceaad3be</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Bus Seat Reservation" source="x_1523454_bus_seat">f2c17b98833112107e03c430ceaad391</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Bus Seat Reservation">f2c17b98833112107e03c430ceaad391</sys_scope>
+        <sys_scope_delete display_value="">69f76399d8774a78b12588f66af86840</sys_scope_delete>
+        <sys_update_name>sp_instance_ais_95050eca837112107e03c430ceaad3be</sys_update_name>
+        <sys_update_version display_value="sp_instance_ais_95050eca837112107e03c430ceaad3be">07c7c436837112107e03c430ceaad360</sys_update_version>
+        <sys_updated_by>lara.pable</sys_updated_by>
+        <sys_updated_on>2024-11-14 14:06:28</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

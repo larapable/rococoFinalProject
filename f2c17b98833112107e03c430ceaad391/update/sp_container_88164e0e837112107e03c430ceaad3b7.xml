@@ -6,8 +6,8 @@
         <bootstrap_alt>false</bootstrap_alt>
         <class_name/>
         <container_class_name/>
-        <name>BSR Login Page - Container 1</name>
-        <order>1</order>
+        <name>BSR Login Page - Container 2</name>
+        <order>2</order>
         <semantic_tag/>
         <sp_page display_value="bsr_login">0c164e0e837112107e03c430ceaad3b4</sp_page>
         <subheader>false</subheader>
@@ -15,14 +15,14 @@
         <sys_created_by>bianca.carabio</sys_created_by>
         <sys_created_on>2024-11-12 15:22:18</sys_created_on>
         <sys_id>88164e0e837112107e03c430ceaad3b7</sys_id>
-        <sys_mod_count>0</sys_mod_count>
-        <sys_name>BSR Login Page - Container 1</sys_name>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>BSR Login Page - Container 2</sys_name>
         <sys_package display_value="Bus Seat Reservation" source="x_1523454_bus_seat">f2c17b98833112107e03c430ceaad391</sys_package>
         <sys_policy/>
         <sys_scope display_value="Bus Seat Reservation">f2c17b98833112107e03c430ceaad391</sys_scope>
         <sys_update_name>sp_container_88164e0e837112107e03c430ceaad3b7</sys_update_name>
-        <sys_updated_by>bianca.carabio</sys_updated_by>
-        <sys_updated_on>2024-11-12 15:22:18</sys_updated_on>
+        <sys_updated_by>lara.pable</sys_updated_by>
+        <sys_updated_on>2024-11-14 15:10:42</sys_updated_on>
         <title/>
         <width>container</width>
     </sp_container>
