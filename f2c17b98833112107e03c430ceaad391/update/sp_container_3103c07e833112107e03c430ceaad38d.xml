@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_container">
+    <sp_container action="INSERT_OR_UPDATE">
+        <background_color/>
+        <background_image/>
+        <background_style>default</background_style>
+        <bootstrap_alt>false</bootstrap_alt>
+        <class_name/>
+        <container_class_name/>
+        <name>SELMA_HomePage - Container 1</name>
+        <order>1</order>
+        <semantic_tag/>
+        <sp_page display_value="selma_homepage">53e2407e833112107e03c430ceaad318</sp_page>
+        <subheader>false</subheader>
+        <sys_class_name>sp_container</sys_class_name>
+        <sys_created_by>kheisa.selma</sys_created_by>
+        <sys_created_on>2024-11-14 13:45:14</sys_created_on>
+        <sys_id>3103c07e833112107e03c430ceaad38d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>SELMA_HomePage - Container 1</sys_name>
+        <sys_package display_value="Bus Seat Reservation" source="x_1523454_bus_seat">f2c17b98833112107e03c430ceaad391</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Bus Seat Reservation">f2c17b98833112107e03c430ceaad391</sys_scope>
+        <sys_update_name>sp_container_3103c07e833112107e03c430ceaad38d</sys_update_name>
+        <sys_updated_by>kheisa.selma</sys_updated_by>
+        <sys_updated_on>2024-11-14 13:45:14</sys_updated_on>
+        <title/>
+        <width>container</width>
+    </sp_container>
+</record_update>

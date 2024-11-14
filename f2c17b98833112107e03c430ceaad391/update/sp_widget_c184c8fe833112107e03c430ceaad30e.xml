@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[api.controller=function() {  /* widget controller */  var c = this;};]]></client_script>
+        <controller_as>c</controller_as>
+        <css>&lt;style&gt;
+    .header {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 20px;
+        background-color: #333;
+        color: white;
+    }
+
+    .header-left img {
+        height: 40px;
+    }
+
+    .header-center ul {
+        display: flex;
+        list-style: none;
+        padding: 0;
+    }
+
+    .header-center ul li {
+        margin-right: 20px;
+    }
+
+    .header-center ul li a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .header-center ul li a:hover {
+        text-decoration: underline;
+    }
+
+    .header-right .user-info {
+        display: flex;
+        align-items: center;
+    }
+
+    .header-right .user-info .user-name {
+        margin-right: 10px;
+    }
+
+    .logout {
+        color: white;
+        text-decoration: none;
+    }
+&lt;/style&gt;</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>selma_menu</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {  }]]></link>
+        <name>selma_menu</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+    // Get the current user's record from the 'sys_user' table
+    var user = gs.getUser();
+    var userName = user.getDisplayName(); // Display name of the user
+    
+    // Return an object with user details for use in the widget
+    data.currentUser = {
+        name: userName
+    };
+})(inputs, outputs);
+]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>kheisa.selma</sys_created_by>
+        <sys_created_on>2024-11-14 13:51:45</sys_created_on>
+        <sys_id>c184c8fe833112107e03c430ceaad30e</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>selma_menu</sys_name>
+        <sys_package display_value="Bus Seat Reservation" source="x_1523454_bus_seat">f2c17b98833112107e03c430ceaad391</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Bus Seat Reservation">f2c17b98833112107e03c430ceaad391</sys_scope>
+        <sys_update_name>sp_widget_c184c8fe833112107e03c430ceaad30e</sys_update_name>
+        <sys_updated_by>kheisa.selma</sys_updated_by>
+        <sys_updated_on>2024-11-14 13:54:10</sys_updated_on>
+        <template><![CDATA[<div class="header">
+
+    <div class="header-center">
+        <nav>
+            <ul>
+                <li><a href="/home" class="btn">Home</a></li>
+                <li><a href="/bus" class="btn">Bus</a></li>
+                <li><a href="/company" class="btn">Company</a></li>
+                <li><a href="/seat-reservations" class="btn">Seat Reservations</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="header-right">
+        <div class="user-info">
+            <span class="user-name">{{currentUser.name}}</span>
+            <a href="/logout" class="logout">Logout</a>
+        </div>
+    </div>
+</div>]]></template>
+    </sp_widget>
+</record_update>

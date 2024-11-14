@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_instance">
+    <sp_instance action="DELETE">
+        <active>true</active>
+        <class_name/>
+        <color>default</color>
+        <css/>
+        <glyph/>
+        <id/>
+        <order>1</order>
+        <roles/>
+        <short_description/>
+        <size>md</size>
+        <sp_column display_value="1">2e03807e833112107e03c430ceaad3bb</sp_column>
+        <sp_widget display_value="sp-user-menu">3333b2ba5b1032000d7ec7ad31f91a27</sp_widget>
+        <sys_class_name>sp_instance</sys_class_name>
+        <sys_created_by>kheisa.selma</sys_created_by>
+        <sys_created_on>2024-11-14 13:46:18</sys_created_on>
+        <sys_id>5d4380be833112107e03c430ceaad317</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Bus Seat Reservation" source="x_1523454_bus_seat">f2c17b98833112107e03c430ceaad391</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Bus Seat Reservation">f2c17b98833112107e03c430ceaad391</sys_scope>
+        <sys_update_name>sp_instance_5d4380be833112107e03c430ceaad317</sys_update_name>
+        <sys_updated_by>kheisa.selma</sys_updated_by>
+        <sys_updated_on>2024-11-14 13:46:18</sys_updated_on>
+        <title/>
+        <url/>
+        <widget_parameters/>
+    </sp_instance>
+    <sys_translated_text action="DELETE" query="documentkey=5d4380be833112107e03c430ceaad317"/>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Bus Seat Reservation">f2c17b98833112107e03c430ceaad391</application>
+        <file_path/>
+        <instance_id>4c284b521b894618168f4089bd4bcb16</instance_id>
+        <instance_name>dev248503</instance_name>
+        <name>sp_instance_5d4380be833112107e03c430ceaad317</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_instance"><sp_instance action="INSERT_OR_UPDATE"><active>true</active><class_name/><color>default</color><css/><glyph/><id/><order>1</order><roles/><short_description/><size>md</size><sp_column display_value="1">2e03807e833112107e03c430ceaad3bb</sp_column><sp_widget display_value="sp-user-menu">3333b2ba5b1032000d7ec7ad31f91a27</sp_widget><sys_class_name>sp_instance</sys_class_name><sys_created_by>kheisa.selma</sys_created_by><sys_created_on>2024-11-14 13:46:18</sys_created_on><sys_id>5d4380be833112107e03c430ceaad317</sys_id><sys_mod_count>0</sys_mod_count><sys_name/><sys_package display_value="Bus Seat Reservation" source="x_1523454_bus_seat">f2c17b98833112107e03c430ceaad391</sys_package><sys_policy/><sys_scope display_value="Bus Seat Reservation">f2c17b98833112107e03c430ceaad391</sys_scope><sys_update_name>sp_instance_5d4380be833112107e03c430ceaad317</sys_update_name><sys_updated_by>kheisa.selma</sys_updated_by><sys_updated_on>2024-11-14 13:46:18</sys_updated_on><title/><url/><widget_parameters/></sp_instance><sys_translated_text action="delete_multiple" query="documentkey=5d4380be833112107e03c430ceaad317"/></record_update>]]></payload>
+        <payload_hash>-1376955900</payload_hash>
+        <record_name/>
+        <reverted_from/>
+        <source>cc79b54a833112107e03c430ceaad34e</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>kheisa.selma</sys_created_by>
+        <sys_created_on>2024-11-14 13:46:18</sys_created_on>
+        <sys_id>914380be833112107e03c430ceaad31a</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1932aecbdcc0000001</sys_recorded_at>
+        <sys_updated_by>kheisa.selma</sys_updated_by>
+        <sys_updated_on>2024-11-14 13:46:18</sys_updated_on>
+        <type>Instance</type>
+        <update_guid>954380be393112100ef07ea0ee12f419</update_guid>
+        <update_guid_history>954380be393112100ef07ea0ee12f419:-1376955900</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="">3643407e833112107e03c430ceaad3e1</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>kheisa.selma</sys_created_by>
+        <sys_created_on>2024-11-14 13:46:23</sys_created_on>
+        <sys_db_object display_value="" name="sp_instance">sp_instance</sys_db_object>
+        <sys_id>d1a92ef3f46345b09477f148c7786240</sys_id>
+        <sys_metadata>5d4380be833112107e03c430ceaad317</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Bus Seat Reservation" source="x_1523454_bus_seat">f2c17b98833112107e03c430ceaad391</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Bus Seat Reservation">f2c17b98833112107e03c430ceaad391</sys_scope>
+        <sys_scope_delete display_value="">69f76399d8774a78b12588f66af86840</sys_scope_delete>
+        <sys_update_name>sp_instance_5d4380be833112107e03c430ceaad317</sys_update_name>
+        <sys_update_version display_value="sp_instance_5d4380be833112107e03c430ceaad317">914380be833112107e03c430ceaad31a</sys_update_version>
+        <sys_updated_by>kheisa.selma</sys_updated_by>
+        <sys_updated_on>2024-11-14 13:46:23</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

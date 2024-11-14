@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_row">
+    <sp_row action="INSERT_OR_UPDATE">
+        <class_name/>
+        <order>1</order>
+        <semantic_tag/>
+        <sp_column/>
+        <sp_container display_value="SELMA_HomePage - Container 2">5be20c7e833112107e03c430ceaad39f</sp_container>
+        <sys_class_name>sp_row</sys_class_name>
+        <sys_created_by>kheisa.selma</sys_created_by>
+        <sys_created_on>2024-11-14 13:54:29</sys_created_on>
+        <sys_id>dd25c8fe833112107e03c430ceaad343</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>1</sys_name>
+        <sys_package display_value="Bus Seat Reservation" source="x_1523454_bus_seat">f2c17b98833112107e03c430ceaad391</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Bus Seat Reservation">f2c17b98833112107e03c430ceaad391</sys_scope>
+        <sys_update_name>sp_row_dd25c8fe833112107e03c430ceaad343</sys_update_name>
+        <sys_updated_by>kheisa.selma</sys_updated_by>
+        <sys_updated_on>2024-11-14 13:54:29</sys_updated_on>
+    </sp_row>
+</record_update>
