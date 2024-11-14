@@ -437,7 +437,7 @@
 
   // If not logged in, show login link
   if (!data.isLoggedIn) {
-    data.loginUrl = "/login";
+    data.loginUrl = "/bsr_login";
   }
 
   // Check if guided tours are enabled and should be shown
@@ -453,14 +453,14 @@
         <sys_created_by>joshua.biong</sys_created_by>
         <sys_created_on>2024-11-12 15:47:32</sys_created_on>
         <sys_id>b9db8e0683b112107e03c430ceaad305</sys_id>
-        <sys_mod_count>2</sys_mod_count>
+        <sys_mod_count>4</sys_mod_count>
         <sys_name>BSR Header Menu</sys_name>
         <sys_package display_value="Bus Seat Reservation" source="x_1523454_bus_seat">f2c17b98833112107e03c430ceaad391</sys_package>
         <sys_policy/>
         <sys_scope display_value="Bus Seat Reservation">f2c17b98833112107e03c430ceaad391</sys_scope>
         <sys_update_name>sp_widget_b9db8e0683b112107e03c430ceaad305</sys_update_name>
-        <sys_updated_by>joshua.biong</sys_updated_by>
-        <sys_updated_on>2024-11-12 15:59:59</sys_updated_on>
+        <sys_updated_by>bianca.carabio</sys_updated_by>
+        <sys_updated_on>2024-11-12 16:18:02</sys_updated_on>
         <template><![CDATA[<ul class="nav navbar-nav" aria-label="${Header}">
   <div class="header-loader" ng-class="{'invisible': !loadingIndicator}">
     <div class="hidden-xs hidden-sm sp-loading-indicator la-sm">
