@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[function MyBusReservationController($scope, $http) {
+  // Initialize data
+  $scope.data = {
+    buses: [],            // List of buses
+    seats: [],            // Seats for the selected bus
+    selectedBus: null,    // User-selected bus
+    selectedSeat: null,   // User-selected seat
+    fare: 0               // Calculated fare
+  };
+
+  // Fetch available buses on load
+  $scope.getBuses = function() {
+    $http.get('/api/now/table/x_1523454_bus_seat_bus_unit')
+      .then(function(response) {
+        $scope.data.buses = response.data.result;
+      }, function(error) {
+        console.error("Error fetching buses:", error);
+      });
+  };
+
+  // Fetch seats when a bus is selected
+  $scope.onBusChange = function() {
+    $scope.data.selectedSeat = null;  // Clear selected seat
+    $http.get('/api/now/table/x_1523454_bus_seat_seat_reservations?bus=' + $scope.data.selectedBus.sys_id)
+      .then(function(response) {
+        $scope.data.seats = response.data.result;
+      }, function(error) {
+        console.error("Error fetching seats:", error);
+      });
+  };
+
+  // Handle seat reservation selection
+  $scope.reserveSeat = function(seat) {
+    $scope.data.selectedSeat = seat;
+    // Calculate fare based on bus data, example formula
+    $scope.data.fare = $scope.data.selectedBus.baseFare;
+  };
+
+  // Confirm reservation
+  $scope.confirmReservation = function() {
+    var reservationData = {
+      bus: $scope.data.selectedBus.sys_id,
+      seat: $scope.data.selectedSeat.sys_id,
+      cost: $scope.data.fare,
+      status: "Awaiting approval"
+    };
+
+    $http.post('/api/now/table/x_1523454_bus_seat_seat_reservations', reservationData)
+      .then(function(response) {
+        alert("Reservation confirmed!");
+        $scope.data.selectedSeat.isReserved = true;  // Mark seat as reserved
+      }, function(error) {
+        console.error("Error confirming reservation:", error);
+      });
+  };
+
+  // Load buses on widget load
+  $scope.getBuses();
+}
+
+// Register the controller with AngularJS
+angular.module('sn.custom').controller('MyBusReservationController', MyBusReservationController);
+]]></client_script>
+        <controller_as>c</controller_as>
+        <css/>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>seat_reservation_and_scheduling</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {  }]]></link>
+        <name>Seat Reservation and Scheduling</name>
+        <option_schema/>
+        <public>true</public>
+        <roles/>
+        <script><![CDATA[(function() {
+  data.buses = [];
+  
+  // Query Bus records for availability
+  var busGR = new GlideRecord('x_1523454_bus_seat_bus_unit');
+  busGR.query();
+  while (busGR.next()) {
+    data.buses.push({
+      sys_id: busGR.sys_id.toString(),
+      name: busGR.getValue('name'),
+      baseFare: busGR.getValue('base_fare') // Assuming a base fare field
+    });
+  }
+})();
+]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>lara.pable</sys_created_by>
+        <sys_created_on>2024-11-14 16:41:52</sys_created_on>
+        <sys_id>c57b2872833512107e03c430ceaad3db</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>Seat Reservation and Scheduling</sys_name>
+        <sys_package display_value="Bus Seat Reservation" source="x_1523454_bus_seat">f2c17b98833112107e03c430ceaad391</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Bus Seat Reservation">f2c17b98833112107e03c430ceaad391</sys_scope>
+        <sys_update_name>sp_widget_c57b2872833512107e03c430ceaad3db</sys_update_name>
+        <sys_updated_by>lara.pable</sys_updated_by>
+        <sys_updated_on>2024-11-14 16:51:19</sys_updated_on>
+        <template><![CDATA[<div class="bus-seat-reservation">
+  <h2>Bus Seat Reservation</h2>
+  
+  <!-- Select Bus -->
+  <div>
+    <label for="bus">Select Bus:</label>
+    <select ng-model="data.selectedBus" ng-change="c.onBusChange()" ng-options="bus.name for bus in data.buses">
+      <option value="">-- Select Bus --</option>
+    </select>
+  </div>
+  
+  <!-- Seat Availability -->
+  <div ng-if="data.selectedBus">
+    <h3>Available Seats for {{data.selectedBus.name}}</h3>
+    <div class="seat-grid">
+      <button ng-repeat="seat in data.seats"
+              ng-class="{reserved: seat.isReserved}"
+              ng-click="c.reserveSeat(seat)"
+              ng-disabled="seat.isReserved">
+        Seat {{seat.number}}
+      </button>
+    </div>
+  </div>
+  
+  <!-- Reservation Details -->
+  <div ng-if="data.selectedSeat">
+    <h3>Reservation Details</h3>
+    <p>Bus: {{data.selectedBus.name}}</p>
+    <p>Seat: {{data.selectedSeat.number}}</p>
+    <p>Fare: {{data.fare | currency}}</p>
+    <button ng-click="c.confirmReservation()">Confirm Reservation</button>
+  </div>
+</div>
+]]></template>
+    </sp_widget>
+</record_update>

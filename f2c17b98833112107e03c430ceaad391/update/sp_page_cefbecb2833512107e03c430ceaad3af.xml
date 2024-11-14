@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_page">
+    <sp_page action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <css/>
+        <draft>false</draft>
+        <dynamic_title_structure/>
+        <human_readable_url_structure/>
+        <id>seat_reservations</id>
+        <internal>false</internal>
+        <omit_watcher>false</omit_watcher>
+        <public>false</public>
+        <roles/>
+        <seo_script/>
+        <short_description/>
+        <sys_class_name>sp_page</sys_class_name>
+        <sys_created_by>lara.pable</sys_created_by>
+        <sys_created_on>2024-11-14 16:44:07</sys_created_on>
+        <sys_id>cefbecb2833512107e03c430ceaad3af</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>seat_reservations</sys_name>
+        <sys_package display_value="Bus Seat Reservation" source="x_1523454_bus_seat">f2c17b98833112107e03c430ceaad391</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Bus Seat Reservation">f2c17b98833112107e03c430ceaad391</sys_scope>
+        <sys_update_name>sp_page_cefbecb2833512107e03c430ceaad3af</sys_update_name>
+        <sys_updated_by>lara.pable</sys_updated_by>
+        <sys_updated_on>2024-11-14 16:44:07</sys_updated_on>
+        <title>Seat Reservations</title>
+        <use_seo_script>false</use_seo_script>
+    </sp_page>
+    <sys_translated_text action="delete_multiple" query="documentkey=cefbecb2833512107e03c430ceaad3af"/>
+</record_update>
