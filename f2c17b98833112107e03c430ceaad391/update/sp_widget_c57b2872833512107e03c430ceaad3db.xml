@@ -88,9 +88,31 @@ angular.module('sn.custom').controller('MyBusReservationController', MyBusReserv
   while (busGR.next()) {
     data.buses.push({
       sys_id: busGR.sys_id.toString(),
-      name: busGR.getValue('name'),
-      baseFare: busGR.getValue('base_fare') // Assuming a base fare field
+      number: busGR.getValue('number'),  // Bus number
+      departure_schedule: busGR.getValue('department_schedule'),  // Departure schedule
+      company: getCompanyName(busGR.getValue('company')),  // Fetch company name from reference
+      accessibility: busGR.getValue('accessibility'),  // Accessibility (Aircon/Non-aircon)
+      bus_stops: getBusStops(busGR.getValue('bus_stops')),  // Fetch bus stop names from reference
+      status: busGR.getValue('status')  // Status (e.g., Available, Unavailable)
     });
+  }
+  
+  // Function to fetch Company name (resolve reference field)
+  function getCompanyName(companySysId) {
+    var companyGR = new GlideRecord('x_1523454_bus_seat_bus_company');
+    if (companyGR.get(companySysId)) {
+      return companyGR.getValue('name');  // Assuming 'name' is the field for the company name
+    }
+    return 'Unknown Company';
+  }
+  
+  // Function to fetch Bus Stops names (resolve reference field)
+  function getBusStops(busStopSysId) {
+    var busStopGR = new GlideRecord('x_1523454_bus_seat_bus_stop');
+    if (busStopGR.get(busStopSysId)) {
+      return busStopGR.getValue('name');  // Assuming 'name' is the field for the bus stop name
+    }
+    return 'Unknown Stop';
   }
 })();
 ]]></script>
@@ -99,14 +121,14 @@ angular.module('sn.custom').controller('MyBusReservationController', MyBusReserv
         <sys_created_by>lara.pable</sys_created_by>
         <sys_created_on>2024-11-14 16:41:52</sys_created_on>
         <sys_id>c57b2872833512107e03c430ceaad3db</sys_id>
-        <sys_mod_count>2</sys_mod_count>
+        <sys_mod_count>4</sys_mod_count>
         <sys_name>Seat Reservation and Scheduling</sys_name>
         <sys_package display_value="Bus Seat Reservation" source="x_1523454_bus_seat">f2c17b98833112107e03c430ceaad391</sys_package>
         <sys_policy/>
         <sys_scope display_value="Bus Seat Reservation">f2c17b98833112107e03c430ceaad391</sys_scope>
         <sys_update_name>sp_widget_c57b2872833512107e03c430ceaad3db</sys_update_name>
         <sys_updated_by>lara.pable</sys_updated_by>
-        <sys_updated_on>2024-11-14 16:51:19</sys_updated_on>
+        <sys_updated_on>2024-11-14 17:11:35</sys_updated_on>
         <template><![CDATA[<div class="bus-seat-reservation">
   <h2>Bus Seat Reservation</h2>
   
